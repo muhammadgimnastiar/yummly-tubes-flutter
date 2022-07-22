@@ -12,7 +12,7 @@ class JustForYou extends StatefulWidget {
 class _JustForYouState extends State<JustForYou> {
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.height + 100;
     return Scaffold(
       body: Center(
           child: SingleChildScrollView(

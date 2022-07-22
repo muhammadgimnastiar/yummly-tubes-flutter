@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 buildTextTitleVariation1(String text) {
   return Padding(
@@ -76,6 +77,19 @@ buildRecipeSubTitle(String text) {
     child: Text(
       text,
       style: TextStyle(
+        fontSize: 16,
+        color: Colors.grey[600],
+      ),
+    ),
+  );
+}
+
+buildRecipeSubTitle1(String text) {
+  return Padding(
+    padding: EdgeInsets.only(bottom: 25),
+    child: Text(
+      text,
+      style: GoogleFonts.poppins(
         fontSize: 16,
         color: Colors.grey[600],
       ),
