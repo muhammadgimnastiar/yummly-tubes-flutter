@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yummly_ui/RecipeDetails.dart';
 import 'package:yummly_ui/Recipemodel.dart';
 
-class Explore extends StatelessWidget {
-  const Explore({Key? key}) : super(key: key);
+class Explore extends StatefulWidget {
+  const Explore(this.prefs, {Key? key}) : super(key: key);
+  final SharedPreferences prefs;
+
+  @override
+  State<Explore> createState() => _ExploreState();
+}
+
+class _ExploreState extends State<Explore> {
+  void refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +34,18 @@ class Explore extends StatelessWidget {
                   vertical: 12,
                 ),
                 child: GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RecipeDetails(
-                                recipeModel: RecipeModel.demoRecipe[index],
-                              ))),
-                  child: RecipeCard(
-                    RecipeModel.demoRecipe[index],
-                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RecipeDetails(
+                                  recipeModel: RecipeModel.demoRecipe[index],
+                                  prefs: widget.prefs,
+                                  refresh: refresh,
+                                )));
+                  },
+                  child:
+                      RecipeCard(RecipeModel.demoRecipe[index], widget.prefs),
                 ),
               );
             },
@@ -44,8 +58,10 @@ class Explore extends StatelessWidget {
 
 class RecipeCard extends StatefulWidget {
   final RecipeModel recipeModel;
+  final SharedPreferences prefs;
   RecipeCard(
     @required this.recipeModel,
+    @required this.prefs,
   );
 
   @override
@@ -53,7 +69,8 @@ class RecipeCard extends StatefulWidget {
 }
 
 class _RecipeCardState extends State<RecipeCard> {
-  bool saved = false;
+  late bool saved =
+      widget.prefs.getBool('isFavorite${widget.recipeModel.imgPath}') ?? false;
   bool loved = false;
   @override
   Widget build(BuildContext context) {
@@ -80,9 +97,13 @@ class _RecipeCardState extends State<RecipeCard> {
               top: 20,
               right: 30,
               child: InkWell(
-                onTap: () {
+                onTap: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   setState(() {
                     saved = !saved;
+                    prefs.setBool(
+                        'isFavorite${widget.recipeModel.imgPath}', saved);
                   });
                 },
                 child: Icon(

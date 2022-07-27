@@ -1,15 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yummly_ui/Recipemodel.dart';
 
-class RecipeDetails extends StatelessWidget {
+class RecipeDetails extends StatefulWidget {
   final RecipeModel recipeModel;
-  RecipeDetails({
-    required this.recipeModel,
-  });
+  final SharedPreferences prefs;
+  final Function() refresh;
+
+  RecipeDetails(
+      {required this.recipeModel, required this.prefs, required this.refresh});
+
+  @override
+  State<RecipeDetails> createState() => _RecipeDetailsState();
+}
+
+class _RecipeDetailsState extends State<RecipeDetails> {
   @override
   Widget build(BuildContext context) {
+    bool isBookmark =
+        widget.prefs.getBool('isFavorite${widget.recipeModel.imgPath}') ??
+            false;
+
     Size size = MediaQuery.of(context).size;
     final _textTheme = Theme.of(context).textTheme;
     return Scaffold(
@@ -27,12 +40,12 @@ class RecipeDetails extends StatelessWidget {
               Align(
                 alignment: Alignment.topCenter,
                 child: Hero(
-                  tag: recipeModel.imgPath,
+                  tag: widget.recipeModel.imgPath,
                   child: Image(
                     height: (size.height / 2) + 50,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    image: AssetImage(recipeModel.imgPath),
+                    image: AssetImage(widget.recipeModel.imgPath),
                   ),
                 ),
               ),
@@ -40,10 +53,25 @@ class RecipeDetails extends StatelessWidget {
                 top: 40,
                 right: 40,
                 child: InkWell(
-                  child: Icon(
-                    Icons.bookmark_border_outlined,
-                    color: Colors.white,
-                    size: 35,
+                  child: GestureDetector(
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+
+                      setState(() {
+                        isBookmark = !isBookmark;
+                        prefs.setBool('isFavorite${widget.recipeModel.imgPath}',
+                            isBookmark);
+                        widget.refresh;
+                      });
+                    },
+                    child: Icon(
+                      isBookmark
+                          ? Icons.bookmark
+                          : Icons.bookmark_border_outlined,
+                      color: isBookmark ? Colors.yellow : Colors.white,
+                      size: 35,
+                    ),
                   ),
                 ),
               ),
@@ -51,7 +79,9 @@ class RecipeDetails extends StatelessWidget {
                 top: 40,
                 left: 20,
                 child: InkWell(
-                  onTap: () => Navigator.pop(context),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   child: Icon(
                     CupertinoIcons.back,
                     color: Colors.white,
@@ -81,14 +111,14 @@ class RecipeDetails extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                recipeModel.title,
+                widget.recipeModel.title,
                 style: _textTheme.headline6,
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
-                recipeModel.writer,
+                widget.recipeModel.writer,
                 style: _textTheme.caption,
               ),
               SizedBox(
@@ -113,7 +143,7 @@ class RecipeDetails extends StatelessWidget {
                   SizedBox(
                     width: 5,
                   ),
-                  Text(recipeModel.cookingTime.toString() + '\''),
+                  Text(widget.recipeModel.cookingTime.toString() + '\''),
                   SizedBox(
                     width: 10,
                   ),
@@ -125,7 +155,7 @@ class RecipeDetails extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(recipeModel.servings.toString() + '  Servings'),
+                  Text(widget.recipeModel.servings.toString() + '  Servings'),
                 ],
               ),
               SizedBox(
@@ -167,7 +197,7 @@ class RecipeDetails extends StatelessWidget {
                         Expanded(
                           child: TabBarView(
                             children: [
-                              Ingredients(recipeModel: recipeModel),
+                              Ingredients(recipeModel: widget.recipeModel),
                               Container(
                                 child: Text("Calories"),
                               ),

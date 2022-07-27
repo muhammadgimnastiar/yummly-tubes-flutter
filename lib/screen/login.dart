@@ -56,7 +56,9 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 15,
                     ),
-                    Image.asset("assets/images/chef.png"),
+                    Image.asset(
+                      "assets/images/1.png",
+                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -136,7 +138,7 @@ class _LoginState extends State<Login> {
                           primary: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Color.fromARGB(255, 251, 227, 7),
+                          backgroundColor: Colors.red,
                           textStyle:
                               const TextStyle(fontWeight: FontWeight.bold),
                         ),

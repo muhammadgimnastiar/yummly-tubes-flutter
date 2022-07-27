@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yummly_ui/detail.dart';
 import 'package:yummly_ui/screen/constans.dart';
 import 'package:yummly_ui/shared.dart';
 import 'package:yummly_ui/data.dart';
 
 class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+  Search(this.prefs, {Key? key}) : super(key: key);
 
+  SharedPreferences prefs;
   @override
   State<Search> createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
   List<bool> optionSelected = [true, false, false];
+
+  void refresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +88,7 @@ class _SearchState extends State<Search> {
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                children: buildRecipes(),
+                children: buildRecipes(refresh),
               ),
             ),
             SizedBox(
@@ -161,70 +167,105 @@ class _SearchState extends State<Search> {
     );
   }
 
-  List<Widget> buildRecipes() {
+  List<Widget> buildRecipes(Function() refresh) {
     List<Widget> list = [];
     for (var i = 0; i < getRecipe().length; i++) {
-      list.add(buildRecipe(getRecipe()[i], i, context));
+      list.add(buildRecipe(getRecipe()[i], i, context, widget.prefs, refresh));
     }
     return list;
   }
 }
 
-Widget buildRecipe(Recipe recipe, int index, BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Detail(recipe: recipe)),
-      );
-    },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
+class buildRecipe extends StatefulWidget {
+  buildRecipe(this.recipe, this.index, this.context, this.prefs, this.refresh,
+      {Key? key})
+      : super(key: key);
+  final Recipe recipe;
+  final int index;
+  final BuildContext context;
+  final SharedPreferences prefs;
+  final Function() refresh;
+  late bool isFavorite =
+      prefs.getBool('isFavoriteSearch${recipe.image}') ?? false;
+  @override
+  State<buildRecipe> createState() => _buildRecipeState();
+}
+
+class _buildRecipeState extends State<buildRecipe> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        widget.isFavorite = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Detail(recipe: widget.recipe)),
+        );
+        setState(() {
+          widget.prefs.setBool(
+              'isFavoriteSearch${widget.recipe.image}', widget.isFavorite);
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          boxShadow: [kBoxShadow],
         ),
-        boxShadow: [kBoxShadow],
-      ),
-      margin: EdgeInsets.only(
-          right: 16, left: index == 0 ? 16 : 0, bottom: 16, top: 8),
-      padding: EdgeInsets.all(16),
-      width: 220,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Hero(
-              tag: recipe.image,
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(recipe.image),
-                    fit: BoxFit.contain,
+        margin: EdgeInsets.only(
+            right: 16, left: widget.index == 0 ? 16 : 0, bottom: 16, top: 8),
+        padding: EdgeInsets.all(16),
+        width: 220,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Hero(
+                tag: widget.recipe.image,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(widget.recipe.image),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          buildRecipeTitle(recipe.title),
-          buildTextSubTitleVariation1(recipe.description),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildCalories(recipe.calories.toString() + " Kcal"),
-              Icon(
-                Icons.favorite_border,
-                color: Colors.black,
-              )
-            ],
-          ),
-        ],
+            SizedBox(
+              height: 8,
+            ),
+            buildRecipeTitle(widget.recipe.title),
+            buildTextSubTitleVariation1(widget.recipe.description),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildCalories(widget.recipe.calories.toString() + " Kcal"),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      widget.isFavorite = !widget.isFavorite;
+                      widget.prefs.setBool(
+                          'isFavoriteSearch${widget.recipe.image}',
+                          widget.isFavorite);
+                    });
+
+                    print('isFavoriteSearch${widget.recipe.image}');
+                  },
+                  child: Icon(
+                    widget.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: Colors.black,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 List<Widget> buildPopulars() {

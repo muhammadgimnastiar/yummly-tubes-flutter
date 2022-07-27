@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yummly_ui/screen/favorite.dart';
 import 'package:yummly_ui/screen/home.dart';
 
 import '../screen/pengaturan.dart';
@@ -15,11 +16,11 @@ class NavigatorBarYummly extends StatefulWidget {
 
 class _NavigatorBarYummlyState extends State<NavigatorBarYummly> {
   late int _selectedIndex;
-  List<Widget> screen = [
-    const Home(),
-    const Search(),
+  late List<Widget> screen = [
+    Home(widget.prefs),
+    Search(widget.prefs),
     Pengaturan(),
-    const radio(),
+    const Favorite(),
     const radio(),
   ];
   void initState() {

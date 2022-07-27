@@ -38,8 +38,9 @@ List<Recipeawal> getRecipeawal() {
         "Pasta Bolognese",
         "True Italian classic ",
         Text(
-          " is simply dummy text of the printing and typesetting"
-          " industry. Lorem Ipsum has been the industry's standard dummy "
+          "is a classic Italian pasta dish that is popular almost all over thee world"
+          "This dish with tomato sauce and minced meat has a very distinctive taste "
+          "Making is suitable to be enjoyed by everyone, from children, adults to the elderly"
           "text ever since the 1500s, when an unknown printer took a galley"
           " of type and scrambled it to make a type specimen book. It has ",
           textAlign: TextAlign.center,
@@ -65,7 +66,7 @@ List<Recipeawal> getRecipeawal() {
         150,
         30,
         8,
-        link: "https://youtu.be/9nOxoC0paPM"),
+        link: "https://youtu.be/3IhKjd9SVoU"),
     Recipeawal(
         "Asparagus",
         "White Onion and watercress Salad",
@@ -81,7 +82,7 @@ List<Recipeawal> getRecipeawal() {
         190,
         35,
         12,
-        link: "https://youtu.be/9nOxoC0paPM"),
+        link: "https://youtu.be/mGTZ__5c6Rw"),
     Recipeawal(
         "Filet Mignon",
         "Bacon-Wrapped Filet Mignon",
@@ -97,6 +98,6 @@ List<Recipeawal> getRecipeawal() {
         250,
         55,
         20,
-        link: "https://youtu.be/2ceVrEHytQM"),
+        link: "https://youtu.be/XyRZgKd5shs"),
   ];
 }

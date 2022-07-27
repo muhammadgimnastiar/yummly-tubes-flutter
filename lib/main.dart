@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yummly_ui/Explore.dart';
 import 'package:yummly_ui/firebase_options.dart';
 import 'package:yummly_ui/notif.dart';
 import 'package:yummly_ui/screen/add_article.dart';
@@ -9,6 +10,7 @@ import 'package:yummly_ui/screen/home.dart';
 import 'package:yummly_ui/screen/home_api.dart';
 import 'package:yummly_ui/screen/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:yummly_ui/screen/search.dart';
 import 'package:yummly_ui/services/articles.dart';
 import 'package:yummly_ui/widget/navigator_bar.dart';
 
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
           initialRoute: prefs.getBool('isLogin') == true ? '/' : '/login',
           routes: {
             '/': (_) => NavigatorBarYummly(prefs),
+            '/search': (_) => Search(prefs),
+            '/explore': (_) => Explore(prefs),
             '/login': (_) => const Login(),
             '/home-api': (_) => HomeAPI(),
             '/add-article': (_) => AddArticlePage(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yummly_ui/explore.dart';
 import 'package:yummly_ui/screen/favourites.dart';
 import 'package:yummly_ui/screen/justforyou.dart';
@@ -7,7 +8,8 @@ import 'package:yummly_ui/screen/pengaturan.dart';
 import 'package:yummly_ui/screen/search.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  SharedPreferences prefs;
+  Home(this.prefs, {Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -19,8 +21,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:
-            Image.asset('assets/images/logo.png', height: 99.0, width: 100.0),
+        title: Image.asset('assets/images/2.png', height: 99.0, width: 150.0),
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
       ),
       body: SafeArea(
@@ -41,7 +42,7 @@ class _HomeState extends State<Home> {
                 text: "Explore Recipes".toUpperCase(),
               ),
               Tab(
-                text: "Favourites".toUpperCase(),
+                text: "Bundle Card".toUpperCase(),
               ),
             ],
             unselectedLabelColor: Colors.black.withOpacity(0.3),
@@ -57,7 +58,7 @@ class _HomeState extends State<Home> {
             child: TabBarView(
               children: [
                 JustForYou(),
-                Explore(),
+                Explore(widget.prefs),
                 Favourites(),
               ],
             ),

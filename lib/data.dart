@@ -24,7 +24,7 @@ List<Recipe> getRecipe() {
         "assets/images/filete_con_papas_cambray.png", 150, 30, 8,
         link: "https://youtu.be/9nOxoC0paPM"),
     Recipe("Asparagus", "White Onion, Fennel, and watercress Salad",
-        "assets/images/pasta_bolognes.png", 190, 35, 12,
+        "assets/images/asparagus.png", 190, 35, 12,
         link: "https://youtu.be/9nOxoC0paPM"),
     Recipe("Filet Mignon", "Bacon-Wrapped Filet Mignon",
         "assets/images/steak_bacon.png", 250, 55, 20,

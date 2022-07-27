@@ -76,16 +76,6 @@ class DetailHome extends StatelessWidget {
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.star, color: Colors.amber),
-                        Icon(Icons.star, color: Colors.amber),
-                        Icon(Icons.star, color: Colors.amber),
-                        Icon(Icons.star, color: Colors.amber),
-                        Icon(Icons.star_outline, color: Colors.amber),
-                      ],
-                    ),
                     SizedBox(height: 20),
                     recipe.text,
                     SizedBox(height: 30),
