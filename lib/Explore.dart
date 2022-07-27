@@ -147,7 +147,7 @@ class _RecipeCardState extends State<RecipeCard> {
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 20,
+                      width: 50,
                     ),
                     Icon(
                       Icons.timer_outlined,
@@ -156,16 +156,6 @@ class _RecipeCardState extends State<RecipeCard> {
                       width: 4,
                     ),
                     Text(widget.recipeModel.cookingTime.toString() + '\''),
-                    Spacer(),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          loved = !loved;
-                        });
-                      },
-                      child: Icon(Icons.favorite,
-                          color: loved ? Colors.red : Colors.black),
-                    ),
                   ],
                 ),
               ),
