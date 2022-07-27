@@ -126,14 +126,6 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               ),
               Row(
                 children: [
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text("199"),
                   SizedBox(
                     width: 5,
                   ),
