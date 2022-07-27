@@ -24,98 +24,85 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Icon(
-          Icons.sort,
-          color: Colors.black,
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(
-              right: 16,
-            ),
-            child: Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildTextTitleVariation1('Hi! Yummly Me'),
-                  buildTextSubTitleVariation1(
-                      'Healthy and nutritious food recipes'),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        option('Vegetable', 'assets/images/icons/salad.png', 0),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        option('Rice', 'assets/images/icons/rice.png', 1),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        option('Fruit', 'assets/images/icons/fruit.png', 2),
-                      ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 32,
                     ),
-                  ),
-                ],
+                    buildTextTitleVariation1('Trending Now'),
+                    buildTextSubTitleVariation1(
+                        'Healthy and nutritious food recipes'),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          option(
+                              'Vegetable', 'assets/images/icons/salad.png', 0),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          option('Rice', 'assets/images/icons/rice.png', 1),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          option('Fruit', 'assets/images/icons/fruit.png', 2),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            Container(
-              height: 350,
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: buildRecipes(refresh),
+              SizedBox(
+                height: 24,
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
+              Container(
+                height: 350,
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  children: buildRecipes(refresh),
+                ),
               ),
-              child: Row(
-                children: [
-                  buildTextSubTitleVariation2('Popular', false),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  buildTextTitleVariation2('Food', true),
-                ],
+              SizedBox(
+                height: 16,
               ),
-            ),
-            Container(
-              height: 190,
-              child: PageView(
-                physics: BouncingScrollPhysics(),
-                children: buildPopulars(),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Row(
+                  children: [
+                    buildTextSubTitleVariation2('Popular', false),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    buildTextTitleVariation2('Food', true),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Container(
+                height: 190,
+                child: PageView(
+                  physics: BouncingScrollPhysics(),
+                  children: buildPopulars(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -21,7 +21,7 @@ class _NavigatorBarYummlyState extends State<NavigatorBarYummly> {
     Search(widget.prefs),
     Pengaturan(),
     const Favorite(),
-    const radio(),
+    const RadioScreen(),
   ];
   void initState() {
     super.initState();
@@ -47,7 +47,8 @@ class _NavigatorBarYummlyState extends State<NavigatorBarYummly> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home, color: Colors.black), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.black), label: "Search"),
+              icon: Icon(Icons.trending_up, color: Colors.black),
+              label: "Trending"),
           BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.black), label: "Account"),
           BottomNavigationBarItem(

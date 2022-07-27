@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:yummly_ui/services/information_edit.dart';
 import 'package:yummly_ui/services/information_service.dart';
 
-class radio extends StatefulWidget {
-  const radio({Key? key}) : super(key: key);
+class RadioScreen extends StatefulWidget {
+  const RadioScreen({Key? key}) : super(key: key);
 
   @override
-  State<radio> createState() => _radioState();
+  State<RadioScreen> createState() => _RadioScreenState();
 }
 
-class _radioState extends State<radio> {
+class _RadioScreenState extends State<RadioScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<InformationService>(
