@@ -52,7 +52,8 @@ class _NavigatorBarYummlyState extends State<NavigatorBarYummly> {
           BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.black), label: "Account"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.list, color: Colors.black), label: "List"),
+              icon: Icon(Icons.bookmark, color: Colors.black),
+              label: "Favorite"),
           BottomNavigationBarItem(
               icon: Icon(Icons.radio, color: Colors.black), label: "Explore"),
         ],

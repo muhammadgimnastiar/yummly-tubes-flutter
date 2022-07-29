@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yummly_ui/RecipeDetails.dart';
 import 'package:yummly_ui/Recipemodel.dart';
+import 'package:yummly_ui/services/favorite.dart';
 
 class Explore extends StatefulWidget {
   const Explore(this.prefs, {Key? key}) : super(key: key);
@@ -93,25 +95,41 @@ class _RecipeCardState extends State<RecipeCard> {
                 ),
               ),
             ),
-            Positioned(
-              top: 20,
-              right: 30,
-              child: InkWell(
-                onTap: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  setState(() {
-                    saved = !saved;
-                    prefs.setBool(
-                        'isFavorite${widget.recipeModel.imgPath}', saved);
-                  });
-                },
-                child: Icon(
-                  saved
-                      ? Icons.bookmark_outlined
-                      : Icons.bookmark_border_outlined,
-                  color: saved ? Colors.yellow : Colors.white,
-                  size: 35,
+            Consumer<FavoriteService>(
+              builder: (context, value, child) => Positioned(
+                top: 20,
+                right: 30,
+                child: InkWell(
+                  onTap: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    setState(() {
+                      saved = !saved;
+                      prefs.setBool(
+                          'isFavorite${widget.recipeModel.imgPath}', saved);
+                      if (saved) {
+                        value.addToFavorite(
+                            widget.recipeModel.title,
+                            widget.recipeModel.writer,
+                            widget.recipeModel.description,
+                            widget.recipeModel.cookingTime,
+                            widget.recipeModel.servings,
+                            widget.recipeModel.imgPath,
+                            widget.recipeModel.ingredients);
+                      } else {
+                        value.deleteToFavorite(
+                          widget.recipeModel.imgPath,
+                        );
+                      }
+                    });
+                  },
+                  child: Icon(
+                    saved
+                        ? Icons.bookmark_outlined
+                        : Icons.bookmark_border_outlined,
+                    color: saved ? Colors.yellow : Colors.white,
+                    size: 35,
+                  ),
                 ),
               ),
             ),

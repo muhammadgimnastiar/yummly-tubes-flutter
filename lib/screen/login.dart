@@ -159,13 +159,6 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      'y u m m l y . i d',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 108, 107, 107),
-                      ),
-                    ),
                   ],
                 ),
               )

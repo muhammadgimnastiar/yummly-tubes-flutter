@@ -12,6 +12,7 @@ import 'package:yummly_ui/screen/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:yummly_ui/screen/search.dart';
 import 'package:yummly_ui/services/articles.dart';
+import 'package:yummly_ui/services/favorite.dart';
 import 'package:yummly_ui/widget/navigator_bar.dart';
 
 import 'services/information_service.dart';
@@ -35,32 +36,35 @@ class MyApp extends StatelessWidget {
       create: (_) => InformationService(),
       child: ChangeNotifierProvider<Articles>(
         create: (_) => Articles(),
-        child: MaterialApp(
-          title: 'Resep Masakan',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              primarySwatch: Colors.yellow,
-              inputDecorationTheme: InputDecorationTheme(
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 251, 227, 7), width: 2)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.grey, width: 1)))),
-          //home: Home();
+        child: ChangeNotifierProvider<FavoriteService>(
+          create: (_) => FavoriteService(),
+          child: MaterialApp(
+            title: 'Resep Masakan',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                primarySwatch: Colors.yellow,
+                inputDecorationTheme: InputDecorationTheme(
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 251, 227, 7), width: 2)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.grey, width: 1)))),
+            //home: Home();
 
-          //untuk pindah hal (navigation)
-          initialRoute: prefs.getBool('isLogin') == true ? '/' : '/login',
-          routes: {
-            '/': (_) => NavigatorBarYummly(prefs),
-            '/search': (_) => Search(prefs),
-            '/explore': (_) => Explore(prefs),
-            '/login': (_) => const Login(),
-            '/home-api': (_) => HomeAPI(),
-            '/add-article': (_) => AddArticlePage(),
-            '/edit-article': (_) => EditArticlePage(),
-          },
+            //untuk pindah hal (navigation)
+            initialRoute: prefs.getBool('isLogin') == true ? '/' : '/login',
+            routes: {
+              '/': (_) => NavigatorBarYummly(prefs),
+              '/search': (_) => Search(prefs),
+              '/explore': (_) => Explore(prefs),
+              '/login': (_) => const Login(),
+              '/home-api': (_) => HomeAPI(),
+              '/add-article': (_) => AddArticlePage(),
+              '/edit-article': (_) => EditArticlePage(),
+            },
+          ),
         ),
       ),
     );
